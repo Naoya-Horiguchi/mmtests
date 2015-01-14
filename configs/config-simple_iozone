@@ -1,3 +1,4 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS iozone"
 
 # Mel's "default" is MEMTOTAL_BYTES*2, but the server could stall with

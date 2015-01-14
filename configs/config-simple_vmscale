@@ -1,2 +1,3 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS vmscale"
 export VMSCALE_CASES="lru-file-mmap-read,lru-file-readonce,lru-file-readtwice,lru-memcg"

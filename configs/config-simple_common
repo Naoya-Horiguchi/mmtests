@@ -10,3 +10,10 @@ else
     # Local devel environment
     export WEBROOT=http://192.168.122.1/mmtests-mirror
 fi
+
+export RUN_WARMUP=
+
+export RUN_NOPROFILE=yes
+export RUN_FINEPROFILE=no
+export RUN_COARSEPROFILE=no
+export OPROFILE_REPORT_ANNOTATE=no

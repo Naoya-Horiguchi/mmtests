@@ -1,3 +1,4 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS pagealloc"
 export PAGEALLOC_GFPFLAGS=GFP_KERNEL
 export PAGEALLOC_ORDER_MIN=0

@@ -1,3 +1,4 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS vmr-stream"
 export STREAM_BACKING_TYPE=static,malloc
 export STREAM_PAGESIZES="base huge dynhuge transhuge"

@@ -1,3 +1,4 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS postmark"
 export POSTMARK_TRANSACTIONS=30000
 export POSTMARK_MIN_SIZE=5120

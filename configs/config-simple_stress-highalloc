@@ -1,3 +1,4 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS stress-highalloc"
 # Stress High-Alloc
 export HIGHALLOC_ALLOC_RATE=16

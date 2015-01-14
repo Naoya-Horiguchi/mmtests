@@ -1,3 +1,4 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS thpavail"
 dd if=/dev/zero of=file bs=50M count=1
 losetup -D 2> /dev/null || losetup -a | cut -f1 -d: | xargs losetup -d

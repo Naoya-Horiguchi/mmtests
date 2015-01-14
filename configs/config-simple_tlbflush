@@ -1,3 +1,4 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS tlbflush"
 export TLBFLUSH_MAX_THREADS=$((NUMCPUS*2))
 export TLBFLUSH_MAX_ENTRIES=512

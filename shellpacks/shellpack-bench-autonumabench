@@ -81,6 +81,14 @@ while [ "$1" != "" ]; do
 		VERSION=$2
 		shift 2
 		;;
+	-m)
+		MOF=-m
+		shift
+		;;
+	-t)
+		AUTONUMA_TESTS="$2"
+		shift 2
+		;;
 	--install-only)
 		INSTALL_ONLY=yes
 		shift
@@ -149,11 +157,14 @@ for TESTTYPE in $AUTONUMA_TESTS; do
 	INVERSE_BIND)
 		SWITCH=-i
 		;;
+	ALL)
+		SWITCH=-A
+		;;
 	esac
 	
 	monitor_pre_hook $LOGDIR_RESULTS $TESTTYPE
 	$TIME_CMD -o $LOGDIR_RESULTS/time.$TESTTYPE \
-		./start_bench.sh $SWITCH | tee $LOGDIR_RESULTS/autonumabench.$TESTTYPE
+		./start_bench.sh $SWITCH $MOF | tee $LOGDIR_RESULTS/autonumabench.$TESTTYPE
 	monitor_post_hook $LOGDIR_RESULTS $TESTTYPE
 	mv *.txt *.pdf $LOGDIR_RESULTS
 	grep elapsed $LOGDIR_RESULTS/time.$TESTTYPE

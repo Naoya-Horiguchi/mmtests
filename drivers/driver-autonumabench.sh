@@ -2,6 +2,10 @@ FINEGRAINED_SUPPORTED=yes
 NAMEEXTRA=
 
 run_bench() {
-	$SHELLPACK_INCLUDE/shellpack-bench-autonumabench
+	if [ ! "$AUTONUMA_TESTS" ] ; then
+		AUTONUMA_TESTS="NUMA01 NUMA02 NUMA01_THEADLOCAL NUMA02_SMT"
+	fi
+
+	$SHELLPACK_INCLUDE/shellpack-bench-autonumabench ${AUTONUMA_MOF:+-m} -t "$AUTONUMA_TESTS"
 	return $?
 }

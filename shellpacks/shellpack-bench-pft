@@ -22,6 +22,14 @@ while [ "$1" != "" ]; do
 		INSTALL_FORCE=yes
 		shift
 		;;
+	--smallonly)
+		SMALLONLY=yes;
+		shift
+		;;
+	--hugeonly)
+		HUGEONLY=yes;
+		shift
+		;;
 	*)
 		echo Unrecognised option: $1
 		shift
@@ -57,6 +65,16 @@ if [ "$PFT_USE_PROCESSES" = "yes" ]; then
 	PFT_CLIENT_SWITCH=-n
 fi
 
+HUGECTL=
+HUGETLB_OPT=
+if [ "$HUGEONLY" = yes ] ; then
+	if [ "USE_DYNAMIC_HUGEPAGES" = yes ] ; then
+		HUGECTL="hugectl --verbose 0 --text --data --bss --heap --shm"
+	else
+		HUGETLB_OPT=-H
+	fi
+fi
+
 cd $SHELLPACK_SOURCES/pft-${VERSION}-installed || die Failed to cd to pft directory
 THREADS=
 START_THREAD=1
@@ -81,9 +99,9 @@ for NR_THREADS in $THREADS; do
 	monitor_pre_hook $LOGDIR_RESULTS ${NR_THREADS}
 	echo -n > $LOGDIR_RESULTS/pft-${NR_THREADS}.log
 	for ITER in `seq 1 $PFT_ITERATIONS`; do
-		( ./pft \
+		( $HUGECTL ./pft \
 			-m			$PFT_MAPPING_SIZE \
-			$PFT_CLIENT_SWITCH	${NR_THREADS}		  \
+			$PFT_CLIENT_SWITCH	${NR_THREADS} $HUGETLB_OPT \
 			2>&1 | tee -a $LOGDIR_RESULTS/pft-${NR_THREADS}.log ) \
 				|| die Failed to run pft
 	done

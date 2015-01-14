@@ -1,0 +1,7 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
+export MMTESTS="$MMTESTS pft"
+export PFT_ITERATIONS=20
+export PFT_MAPPING_SIZE=$((MEMTOTAL_BYTES/5))
+export PFT_MAX_CLIENTS=$(nproc)
+export PFT_USE_PROCESSES=no
+export PFT_PAGESIZES="base transhuge"

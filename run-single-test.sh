@@ -9,7 +9,7 @@ if [ -n "$MMTEST_ITERATION" ]; then
 	export SHELLPACK_LOG="$SHELLPACK_LOG/$MMTEST_ITERATION"
 fi
 if [ ! "$TESTDISK_DIR" ] ; then
-    TESTDISK_DIR=$SHELLPACK_TEMP
+	TESTDISK_DIR=$SHELLPACK_TEMP
 fi
 
 if [ "$MMTESTS" = "" ]; then

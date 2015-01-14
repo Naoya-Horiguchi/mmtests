@@ -49,6 +49,7 @@ WEB_LOCATION=http://ftp.kernel.org/pub/linux/kernel/v3.0/linux-$VERSION.tar.gz
 MIRROR_LOCATION=$WEBROOT/kernbench/linux-$VERSION.tar.gz
 THREADS=$(($NUMCPUS*$FACTOR))
 
+[ ! -d "$TESTDISK_DIR" ] && echo "not TESTDISK_DIR found" && exit 1
 pushd $TESTDISK_DIR > /dev/null
 
 sources_fetch $WEB_LOCATION $MIRROR_LOCATION ./linux-$VERSION.tar.gz

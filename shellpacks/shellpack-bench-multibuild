@@ -114,6 +114,10 @@ done
 
 # Gather results and cleanup
 cat $LOGDIR_RESULTS/time.* | grep elapsed | tee $LOGDIR_RESULTS/time
+if [ ! "$TESTDISK_DIR" ] ; then
+    echo "warning: test script is trying to rm /* !!! fix it."
+    exit 0
+fi
 rm -rf $TESTDISK_DIR/*
 
 exit 0

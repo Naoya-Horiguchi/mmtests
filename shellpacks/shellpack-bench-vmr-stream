@@ -62,7 +62,8 @@ echo "BACKINGLIST = $BACKINGLIST"
 echo "SMALLONLY = $SMALLONLY"
 echo "HUGEONLY = $HUGEONLY"
 echo "ARRAYBACKING = $ARRAYBACKING"
-echo "USE_DYNAMIC_HUGEPAGE = $USE_DYNAMIC_HUGEPAGE"
+echo "USE_DYNAMIC_HUGEPAGE = $USE_DYNAMIC_HUGEPAGES"
+echo "thp enabled?: $(cat /sys/kernel/mm/transparent_hugepage/enabled)"
 
 for backing in $BACKINGLIST; do
 	echo 0 > /proc/sys/vm/nr_hugepages

@@ -87,6 +87,8 @@ if [ "$MB_PER_SEC" != "" ]; then
 	echo Adjusted ms_delay to $MS_DELAY for $MB_PER_SEC megabytes per second IO queues
 fi
 
+mkdir -p $LOGDIR_RESULTS
+
 # Configure the stap script
 cat $SHELLPACK_STAP/highalloc.stp | sed \
         -e "s/define PARAM_MSDELAY.*/define PARAM_MSDELAY $MS_DELAY/" \
@@ -98,11 +100,10 @@ cat $SHELLPACK_STAP/highalloc.stp | sed \
 for WORKLOAD in $WORKLOADS; do
 
 	cd $SHELLPACK_TOPLEVEL
-	mkdir -p $LOGDIR_RESULTS
 	echo Starting background workload: $WORKLOAD
 	./run-single-test.sh $WORKLOAD > $LOGDIR_RESULTS/workload-$WORKLOAD.log 2>&1 &
 	WORKLOAD_PID=$!
-	
+
 	# While workload is running, try highalloc tests
 	STATUS=0
 	PASS=1

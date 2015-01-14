@@ -150,6 +150,7 @@ function git_fetch() {
 
 	if [ "$MMTESTS_IGNORE_MIRROR" != "yes" ]; then
 		echo "$P: Fetching from mirror $MIRROR"
+		echo "wget -q -O $OUTPUT $MIRROR"
 		wget -q -O $OUTPUT $MIRROR
 	fi
 

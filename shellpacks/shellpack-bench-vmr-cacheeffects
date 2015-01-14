@@ -2,7 +2,7 @@
 # Run cacheeffects benchmark via VMRegress
 
 P=vmr-cacheeffects
-LIBHUGETLBFS_VERSION=2.9
+LIBHUGETLBFS_VERSION=2.18
 USE_LARGE_PAGES=yes
 . $SHELLPACK_INCLUDE/common.sh
 

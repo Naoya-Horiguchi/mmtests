@@ -2,7 +2,7 @@
 # Run stream benchmark via VMRegress
 
 P=vmr-stream
-LIBHUGETLBFS_VERSION=2.9
+LIBHUGETLBFS_VERSION=2.18
 ARRAYBACKING=static,malloc
 RELINK=old
 NOCHECK_DEVIATION=

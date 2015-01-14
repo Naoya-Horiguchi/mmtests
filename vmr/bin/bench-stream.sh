@@ -4,7 +4,7 @@
 export SCRIPT=`basename $0 | sed -e 's/\./\\\./'`
 export SCRIPTDIR=`echo $0 | sed -e "s/$SCRIPT//"`
 source $SCRIPTDIR/lib/sh/funcs.sh
-export PATH=$PATH:$SCRIPTDIR
+export PATH=$PATH:$SCRIPTDIR:$SCRIPTDIR/bin
 
 RESULT_DIR=$HOME/vmregressbench-`uname -r`/stream
 EXTRA=

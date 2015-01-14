@@ -4,6 +4,7 @@
 export SCRIPT=`basename $0 | sed -e 's/\./\\\./'`
 export SCRIPTDIR=`echo $0 | sed -e "s/$SCRIPT//"`
 export PATH=$PATH:$SCRIPTDIR
+WORDSIZE=
 source $SCRIPTDIR/lib/sh/funcs.sh
 
 SELF=$0
@@ -12,7 +13,7 @@ RESULT_DIR=$HOME/vmregressbench-`uname -r`/cacheeffects
 NODESIZE_LIST="32 64 128 256 512 1024 2048 4096 64738"
 HUGETLBFS_MALLOC=no
 EXTRA=
-WORDSIZE=`wordsize`
+getwordsize
 
 # Print usage of command
 usage() {

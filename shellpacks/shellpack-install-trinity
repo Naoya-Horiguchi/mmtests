@@ -29,7 +29,7 @@ if [ -z "$VERSION" ]; then
 fi
 
 # Unconditionally fetch the tar to find out the real version number
-TARFILE=trinity-${VERSION}.tar.gz
+TARFILE=trinity-${VERSION}.tar.xz
 git_fetch $GIT_LOCATION trinity-${VERSION}-installed $MIRROR_LOCATION/$TARFILE $SHELLPACK_SOURCES/$TARFILE
 cd $SHELLPACK_SOURCES
 tar -xf $TARFILE

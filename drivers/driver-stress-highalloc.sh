@@ -7,6 +7,7 @@ run_bench() {
 		--mb-per-sec $HIGHALLOC_ALLOC_RATE \
 		--percent $HIGHALLOC_PERCENTAGE \
 		--gfp-flags $HIGHALLOC_GFPFLAGS \
+                -k $HIGHALLOC_NR_KERNELS \
 		-z
 	return $?
 }

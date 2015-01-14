@@ -3,6 +3,7 @@ export MMTESTS="$MMTESTS stress-highalloc"
 # Stress High-Alloc
 export HIGHALLOC_ALLOC_RATE=16
 export HIGHALLOC_PERCENTAGE=95
+export HIGHALLOC_NR_KERNELS=$[$(free -m | grep Mem: | awk '{print $2}') / 1024]
 # for HUGETLB-like: GFP_ALLOC_LIKE_HUGETLB
 # for THP-like: GFP_ALLOC_LIKE_THP
 export HIGHALLOC_GFPFLAGS="GFP_HIGHUSER_MOVABLE"

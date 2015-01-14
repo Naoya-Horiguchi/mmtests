@@ -8,3 +8,8 @@ export IOZONE_MIN_SIZE=$((MEMTOTAL_BYTES/8))
 # export IOZONE_MAX_SIZE=$((MEMTOTAL_BYTES*2))
 # export IOZONE_MIN_SIZE=$((MEMTOTAL_BYTES/16))
 export IOZONE_ITERATIONS=5
+
+# Possible options
+# export IOZONE_FSYNC=yes
+# export IOZONE_DIO=yes
+# export IOZONE_NODE=yes

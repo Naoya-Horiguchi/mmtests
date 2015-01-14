@@ -135,6 +135,11 @@ if [ "$TIME_CMD" = "" ]; then
 	TIME_CMD="time"
 fi
 
+# show autonuma parameters
+find /proc | grep numa_balancing | while read line ; do
+    echo "$line: $(cat $line)"
+done
+
 for TESTTYPE in $AUTONUMA_TESTS; do
 	mmtests_activity $TESTTYPE
 	SWITCH=

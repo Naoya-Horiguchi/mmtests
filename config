@@ -1,8 +1,10 @@
-DIRNAME=`dirname $0`
-SCRIPTDIR=`cd "$DIRNAME" && pwd`
+DIRNAME=$(dirname $BASH_SOURCE)
+SCRIPTDIR=$(readlink $DIRNAME)
+
+export WEBROOT=http://nfssv.rhts.fuchu/export/data/user/n-horiguchi/mmtests-mirror
 
 # MM Test Parameters
-export MMTESTS="pft"
+export MMTESTS="kernbench pft"
 export RUN_WARMUP=
 
 # Profiling parameters
@@ -79,6 +81,6 @@ export MONITOR_PERF_EVENTS=
 # Page Fault Test (PFT)
 export PFT_ITERATIONS=20
 export PFT_MAPPING_SIZE=$((MEMTOTAL_BYTES/5))
-export PFT_MAX_CLIENTS=$NUMCPUS
+export PFT_MAX_CLIENTS=$(nproc)
 export PFT_USE_PROCESSES=yes
-export PFT_PAGESIZES=base
+export PFT_PAGESIZES=base # or transhuge

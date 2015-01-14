@@ -1,4 +1,2 @@
 source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS autonumabench"
-
-export AUTONUMA_TESTS="ALL"

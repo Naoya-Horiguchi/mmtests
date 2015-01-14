@@ -1,0 +1,9 @@
+export MMTESTS="$MMTESTS iozone"
+
+# Mel's "default" is MEMTOTAL_BYTES*2, but the server could stall with
+# that value, so set smaller MAX.
+export IOZONE_MAX_SIZE=$((MEMTOTAL_BYTES/2))
+export IOZONE_MIN_SIZE=$((MEMTOTAL_BYTES/8))
+# export IOZONE_MAX_SIZE=$((MEMTOTAL_BYTES*2))
+# export IOZONE_MIN_SIZE=$((MEMTOTAL_BYTES/16))
+export IOZONE_ITERATIONS=5

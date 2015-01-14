@@ -1,0 +1,6 @@
+export MMTESTS="$MMTESTS trinity"
+export TRINITY_DURATION=600
+export TRINITY_GROUP=vm
+export TRINITY_VERSION=1.4
+export TRINITY_OPTIONS=--dangerous # or --dropprivs
+# export TRINITY_SYSCALL=

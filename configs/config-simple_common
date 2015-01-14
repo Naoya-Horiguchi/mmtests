@@ -1,0 +1,12 @@
+DIRNAME=$(dirname $0)
+SCRIPTDIR=$(readlink -f $DIRNAME)
+export PATH=$SCRIPTDIR/vmr/bin:$SCRIPTDIR/fraganalysis:$SCRIPTDIR/bin:$PATH
+
+if [[ "$(hostname)" =~ rhts.fuchu ]] ; then
+    # Fuchu RHTS
+    export WEBROOT=http://nfssv.rhts.fuchu/export/data/user/n-horiguchi/mmtests-mirror
+else
+    # 192.168.0.127
+    # Local devel environment
+    export WEBROOT=http://192.168.122.1/mmtests-mirror
+fi

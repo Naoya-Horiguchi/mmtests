@@ -1,0 +1,10 @@
+export MMTESTS="$MMTESTS thpavail"
+dd if=/dev/zero of=file bs=50M count=1
+losetup -D 2> /dev/null || losetup -a | cut -f1 -d: | xargs losetup -d
+losetup /dev/loop0 file
+# THP availability basic
+export THP_AVAILABILITY_READ_DEVICE=/dev/vdb
+# export THP_AVAILABILITY_READ_FILE=$SHELLPACK_TEMP/zero
+export THP_AVAILABILITY_WRITE_DEVICE=/dev/loop0
+export THP_AVAILABILITY_WRITE_FILESYSTEM=ext4
+export THP_AVAILABILITY_ITERATIONS=10

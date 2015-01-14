@@ -4,4 +4,4 @@ export PFT_ITERATIONS=20
 export PFT_MAPPING_SIZE=$((MEMTOTAL_BYTES/5))
 export PFT_MAX_CLIENTS=$(nproc)
 export PFT_USE_PROCESSES=yes
-export PFT_PAGESIZES="base transhuge"
+export PFT_PAGESIZES="base transhuge huge dynhuge"

@@ -1,5 +1,5 @@
 source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS thpmemscale"
-export THPMEMSCALE_PAGESIZES=transhuge
+export THPMEMSCALE_PAGESIZES="base transhuge"
 export THPMEMSCALE_MAX_THREADS=$((NUMCPUS))
 export THPMEMSCALE_MEMORY=$((512*1048576))

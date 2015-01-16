@@ -205,21 +205,40 @@ function hg_fetch() {
 }
 
 export TRANSHUGE_AVAILABLE=no
-if [ -e /sys/kernel/mm/transparent_hugepage/enabled ]; then
+if uname -r | grep "\.el6" > /dev/null ; then
+    if [ -e /sys/kernel/mm/redhat_transparent_hugepage/enabled ]; then
+	export TRANSHUGE_AVAILABLE=yes
+	export TRANSHUGE_DEFAULT=`cat /sys/kernel/mm/redhat_transparent_hugepage/enabled | awk -F [ '{print $2}' | awk -F ] '{print $1}'`
+    fi
+else
+    if [ -e /sys/kernel/mm/transparent_hugepage/enabled ]; then
 	export TRANSHUGE_AVAILABLE=yes
 	export TRANSHUGE_DEFAULT=`cat /sys/kernel/mm/transparent_hugepage/enabled | awk -F [ '{print $2}' | awk -F ] '{print $1}'`
+    fi
 fi
 
 function enable_transhuge() {
+    if uname -r | grep "\.el6" > /dev/null ; then
+	if [ -e /sys/kernel/mm/redhat_transparent_hugepage/enabled ]; then
+		echo always > /sys/kernel/mm/redhat_transparent_hugepage/enabled
+	fi
+    else
 	if [ -e /sys/kernel/mm/transparent_hugepage/enabled ]; then
 		echo always > /sys/kernel/mm/transparent_hugepage/enabled
 	fi
+    fi
 }
 
 function disable_transhuge() {
+    if uname -r | grep "\.el6" > /dev/null ; then
+	if [ -e /sys/kernel/mm/redhat_transparent_hugepage/enabled ]; then
+		echo never > /sys/kernel/mm/redhat_transparent_hugepage/enabled
+	fi
+    else
 	if [ -e /sys/kernel/mm/transparent_hugepage/enabled ]; then
 		echo never > /sys/kernel/mm/transparent_hugepage/enabled
 	fi
+    fi
 }
 
 function reset_transhuge() {

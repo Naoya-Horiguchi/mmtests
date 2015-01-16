@@ -63,11 +63,16 @@ echo "SMALLONLY = $SMALLONLY"
 echo "HUGEONLY = $HUGEONLY"
 echo "ARRAYBACKING = $ARRAYBACKING"
 echo "USE_DYNAMIC_HUGEPAGE = $USE_DYNAMIC_HUGEPAGES"
-if uname -r | grep "\.el6" > /dev/null ; then
-    echo "thp enabled?: $(cat /sys/kernel/mm/redhat_transparent_hugepage/enabled)"
+if uname -r | grep "\.el6" > /dev/null ; then # RHEL6
+    thp_base=/sys/kernel/mm/redhat_transparent_hugepage
 else
-    echo "thp enabled?: $(cat /sys/kernel/mm/transparent_hugepage/enabled)"
+    thp_base=/sys/kernel/mm/transparent_hugepage
 fi
+for f in defrag enabled khugepaged/alloc_sleep_millisecs khugepaged/defrag khugepaged/full_scans khugepaged/max_ptes_none khugepaged/pages_collapsed khugepaged/pages_to_scan k\
+hugepaged/scan_sleep_millisecs ; do
+    echo "THP: $f; $(cat $thp_base/$f)"
+done
+
 
 for backing in $BACKINGLIST; do
 	echo 0 > /proc/sys/vm/nr_hugepages

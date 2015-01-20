@@ -404,49 +404,50 @@ if [ "$ARRAY" = "malloc" ]; then
 		die "Option --use-malloc-array depends on --lang-c"
 	fi
 	echo Patching stream for malloc | tee -a $RESULTS
-	echo '--- stream.c	2009-08-13 17:19:35.000000000 +0100
-+++ stream-malloc.c	2009-08-13 17:19:21.000000000 +0100
-@@ -45,6 +45,7 @@
+	echo '--- stream.c	2015-01-20 18:42:14.468775179 +0900
++++ stream-malloc.c	2015-01-20 18:48:51.150787873 +0900
+@@ -46,6 +46,7 @@
  # include <float.h>
  # include <limits.h>
  # include <sys/time.h>
 +# include <stdlib.h>
  
- /* INSTRUCTIONS:
-  *
-@@ -94,9 +95,7 @@
- # define MAX(x,y) ((x)>(y)?(x):(y))
- # endif
+ /*-----------------------------------------------------------------------
+  * INSTRUCTIONS:
+@@ -176,9 +177,7 @@
+ #define STREAM_TYPE double
+ #endif
  
--static double	a[N+OFFSET],
--		b[N+OFFSET],
--		c[N+OFFSET];
-+static double	*a, *b, *c;
+-static STREAM_TYPE	a[STREAM_ARRAY_SIZE+OFFSET],
+-			b[STREAM_ARRAY_SIZE+OFFSET],
+-			c[STREAM_ARRAY_SIZE+OFFSET];
++static STREAM_TYPE	*a, *b, *c;
  
  static double	avgtime[4] = {0}, maxtime[4] = {0},
  		mintime[4] = {FLT_MAX,FLT_MAX,FLT_MAX,FLT_MAX};
-@@ -131,6 +130,13 @@
-     double		scalar, t, times[4][NTIMES];
+@@ -215,6 +214,13 @@
+     double		t, times[4][NTIMES];
  
      /* --- SETUP --- determine precision and check timing --- */
-+    a = (double *)malloc(sizeof(double) * (N + OFFSET) * 3);
-+    b = a + N + OFFSET;
-+    c = b + N + OFFSET;
++    a = (double *)malloc(sizeof(double) * (STREAM_ARRAY_SIZE+OFFSET) * 3);
++    b = a + STREAM_ARRAY_SIZE+OFFSET;
++    c = b + STREAM_ARRAY_SIZE+OFFSET;
 +    if (a == NULL) {
-+        printf("Failed to alloc arrays\n");
-+        exit(-1);
++            printf("Failed to alloc arrays\n");
++            exit(-1);
 +    }
  
      printf(HLINE);
-     printf("STREAM version $Revision: 5.9 $\n");
-@@ -138,6 +144,7 @@
-     BytesPerWord = sizeof(double);
-     printf("This system uses %d bytes per DOUBLE PRECISION word.\n",
- 	BytesPerWord);
+     printf("STREAM version $Revision: 5.10 $\n");
+@@ -242,6 +248,7 @@
+     printf("Each kernel will be executed %d times.\n", NTIMES);
+     printf(" The *best* time for each kernel (excluding the first iteration)\n"); 
+     printf(" will be used to compute the reported bandwidth.\n");
 +    printf("The work arrays are allocated with malloc()\n");
  
+ #ifdef _OPENMP
      printf(HLINE);
- #ifdef NO_LONG_LONG' > malloc.patch
+' > malloc.patch
 		 patch < malloc.patch || die "Failed to patch stream for malloc support"
 fi
 
@@ -457,20 +458,28 @@ if [ "$ARRAY" = "stack" ]; then
 	fi
 
 	echo Patching stream for stack | tee -a $RESULTS
-	echo '--- stream.c.orig	2008-04-01 17:11:38.000000000 +0100
-+++ stream.c	2008-04-01 17:40:26.000000000 +0100
-@@ -88,10 +88,6 @@
- # define MAX(x,y) ((x)>(y)?(x):(y))
- # endif
+	echo '--- stream.c.orig	2015-01-20 18:42:14.468775179 +0900
++++ stream.c	2015-01-20 18:52:43.236795300 +0900
+@@ -46,6 +46,7 @@
+ # include <float.h>
+ # include <limits.h>
+ # include <sys/time.h>
++# include <stdlib.h>
  
--static double	a[N+OFFSET],
--		b[N+OFFSET],
--		c[N+OFFSET];
+ /*-----------------------------------------------------------------------
+  * INSTRUCTIONS:
+@@ -176,10 +177,6 @@
+ #define STREAM_TYPE double
+ #endif
+ 
+-static STREAM_TYPE	a[STREAM_ARRAY_SIZE+OFFSET],
+-			b[STREAM_ARRAY_SIZE+OFFSET],
+-			c[STREAM_ARRAY_SIZE+OFFSET];
 -
  static double	avgtime[4] = {0}, maxtime[4] = {0},
  		mintime[4] = {FLT_MAX,FLT_MAX,FLT_MAX,FLT_MAX};
  
-@@ -106,12 +102,12 @@
+@@ -194,12 +191,12 @@
      };
  
  extern double mysecond();
@@ -478,27 +487,27 @@ if [ "$ARRAY" = "stack" ]; then
 +extern void checkSTREAMresults(double *a, double *b, double *c);
  #ifdef TUNED
 -extern void tuned_STREAM_Copy();
--extern void tuned_STREAM_Scale(double scalar);
+-extern void tuned_STREAM_Scale(STREAM_TYPE scalar);
 -extern void tuned_STREAM_Add();
--extern void tuned_STREAM_Triad(double scalar);
+-extern void tuned_STREAM_Triad(STREAM_TYPE scalar);
 +extern void tuned_STREAM_Copy(double *a, double *b, double *c);
-+extern void tuned_STREAM_Scale(double scalar, double *a, double *b, double *c) ;
++extern void tuned_STREAM_Scale(double scalar, double *a, double *b, double *c);
 +extern void tuned_STREAM_Add(double *a, double *b, double *c);
 +extern void tuned_STREAM_Triad(double scalar, double *a, double *b, double *c);
  #endif
  #ifdef _OPENMP
  extern int omp_get_num_threads();
-@@ -123,6 +119,9 @@
-     int			BytesPerWord;
-     register int	j, k;
-     double		scalar, t, times[4][NTIMES];
-+    double	a[N+OFFSET],
-+		b[N+OFFSET],
-+		c[N+OFFSET];
+@@ -213,6 +210,9 @@
+     ssize_t		j;
+     STREAM_TYPE		scalar;
+     double		t, times[4][NTIMES];
++    double     a[STREAM_ARRAY_SIZE+OFFSET],
++               b[STREAM_ARRAY_SIZE+OFFSET],
++               c[STREAM_ARRAY_SIZE+OFFSET];
  
      /* --- SETUP --- determine precision and check timing --- */
  
-@@ -267,7 +266,7 @@
+@@ -372,7 +372,7 @@
      printf(HLINE);
  
      /* --- Check Results --- */
@@ -507,52 +516,52 @@ if [ "$ARRAY" = "stack" ]; then
      printf(HLINE);
  
      return 0;
-@@ -322,7 +321,7 @@
-         return ( (double) tp.tv_sec + (double) tp.tv_usec * 1.e-6 );
- }
- 
+@@ -430,7 +430,7 @@
+ #ifndef abs
+ #define abs(a) ((a) >= 0 ? (a) : -(a))
+ #endif
 -void checkSTREAMresults ()
 +void checkSTREAMresults (double *a, double *b, double *c)
  {
- 	double aj,bj,cj,scalar;
- 	double asum,bsum,csum;
-@@ -387,7 +386,7 @@
- 	}
- }
+ 	STREAM_TYPE aj,bj,cj,scalar;
+ 	STREAM_TYPE aSumErr,bSumErr,cSumErr;
+@@ -550,7 +550,7 @@
  
+ #ifdef TUNED
+ /* stubs for "tuned" versions of the kernels */
 -void tuned_STREAM_Copy()
 +void tuned_STREAM_Copy(double *a, double *b, double *c)
  {
- 	int j;
+ 	ssize_t j;
  #pragma omp parallel for
-@@ -395,7 +394,7 @@
+@@ -558,7 +558,7 @@
              c[j] = a[j];
  }
  
--void tuned_STREAM_Scale(double scalar)
+-void tuned_STREAM_Scale(STREAM_TYPE scalar)
 +void tuned_STREAM_Scale(double scalar, double *a, double *b, double *c)
  {
- 	int j;
+ 	ssize_t j;
  #pragma omp parallel for
-@@ -403,7 +402,7 @@
+@@ -566,7 +566,7 @@
  	    b[j] = scalar*c[j];
  }
  
 -void tuned_STREAM_Add()
 +void tuned_STREAM_Add(double *a, double *b, double *c)
  {
- 	int j;
+ 	ssize_t j;
  #pragma omp parallel for
-@@ -411,7 +410,7 @@
+@@ -574,7 +574,7 @@
  	    c[j] = a[j]+b[j];
  }
  
--void tuned_STREAM_Triad(double scalar)
-+void tuned_STREAM_Triad(double scalar, double *a, double *b, double *c)
+-void tuned_STREAM_Triad(STREAM_TYPE scalar)
++void tuned_STREAM_Triad(double scalar, double *a, double *b, double *c) 
  {
- 	int j;
+ 	ssize_t j;
  #pragma omp parallel for
-		 	' > stack.patch
+' > stack.patch
 		 patch < stack.patch || die "Failed to patch stream for stack support"
 fi
 

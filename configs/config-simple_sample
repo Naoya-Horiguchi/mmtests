@@ -1,0 +1,13 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
+export MMTESTS="$MMTESTS sample"
+
+export RUN_MONITOR=yes 
+export MONITORS_ALWAYS="proc-stat extfrag"
+export MONITOR_UPDATE_FREQUENCY=10          
+
+# List of monitors                          
+export MONITORS_PLAIN=                      
+export MONITORS_GZIP= # "proc-vmstat top"      
+export MONITORS_WITH_LATENCY= # "vmstat iostat"
+export MONITOR_READ_LATENCY_RANDOM=no       
+export MONITOR_READ_LATENCY_READSIZE_MB=32  

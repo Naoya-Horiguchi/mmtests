@@ -96,8 +96,8 @@ for CASE in $VMSCALE_CASES; do
 
 	# Prepare for compatability with how vmscale works without using the
 	# run script as it does more setup than mmtests needs to deal with
-	rm -rf /tmp/vm-scalability
-	rm -rf $SHELLPACK_TEMP/*
+	rm -rf /tmp/vm-scalability 2> /dev/null
+	rm -rf $SHELLPACK_TEMP/* 2> /dev/null
 	ln -s $SHELLPACK_TEMP /tmp/vm-scalability
 
 	echo $CASE | tee -a $LOGDIR_RESULTS/cases

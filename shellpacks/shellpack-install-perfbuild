@@ -40,21 +40,25 @@ if [ -z "$VERSION" ]; then
 fi
 
 # Unconditionally fetch the tar to find out the real version number
-TARFILE=linux-${VERSION}.tar.xz
-sources_fetch $WEB_LOCATION/$TARFILE $MIRROR_LOCATION/$TARFILE $SHELLPACK_SOURCES/$TARFILE
-cd $SHELLPACK_SOURCES
-tar -xf $TARFILE
-if [ $? -ne 0 ]; then
-        error "$P: tar xf linux-${VERSION}.tar.xz failed"
-        popd > /dev/null
-        exit $SHELLPACK_ERROR
-fi
+# TARFILE=linux-${VERSION}.tar.xz
+# sources_fetch $WEB_LOCATION/$TARFILE $MIRROR_LOCATION/$TARFILE $SHELLPACK_SOURCES/$TARFILE
+# cd $SHELLPACK_SOURCES
+# tar -xf $TARFILE
+# if [ $? -ne 0 ]; then
+#         error "$P: tar xf linux-${VERSION}.tar.xz failed"
+#         popd > /dev/null
+#         exit $SHELLPACK_ERROR
+# fi
+# 
+# # Rename directory to something we expect.
+# DST_DIR=`tar tf $TARFILE | head -n 1 | awk -F / '{print $1}'`
+# mv $DST_DIR perfbuild-${VERSION}
+# pushd perfbuild-${VERSION} > /dev/null || die Failed to rename tar
+# pushd $SHELLPACK_SOURCES/perfbuild-${VERSION}/tools/perf || die Failed to change to source directory
 
-# Rename directory to something we expect.
-DST_DIR=`tar tf $TARFILE | head -n 1 | awk -F / '{print $1}'`
-mv $DST_DIR perfbuild-${VERSION}
-pushd perfbuild-${VERSION} > /dev/null || die Failed to rename tar
-pushd $SHELLPACK_SOURCES/perfbuild-${VERSION}/tools/perf || die Failed to change to source directory
+# local work adround
+pushd /src/linux-dev/tools/perf > /dev/null
+
 make -j$NUMCPUS prefix=$SHELLPACK_SOURCES/perfbuild-${VERSION}-installed
 if [ $? -ne 0 ]; then
 	error "$P: make failed"

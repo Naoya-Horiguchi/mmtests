@@ -19,6 +19,7 @@ export RUN_NOPROFILE=yes
 export RUN_FINEPROFILE=no
 export RUN_COARSEPROFILE=no
 export OPROFILE_REPORT_ANNOTATE=no
+export VM_TRANSPARENT_HUGEPAGES_DEFAULT=default
 
 # Fixups
 if [ "`which check-confidence.pl 2> /dev/null`" = "" ]; then

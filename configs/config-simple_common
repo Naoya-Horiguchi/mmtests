@@ -5,10 +5,12 @@ export PATH=$SCRIPTDIR/vmr/bin:$SCRIPTDIR/fraganalysis:$SCRIPTDIR/bin:$PATH
 if [[ "$(hostname)" =~ rhts.fuchu ]] ; then
     # Fuchu RHTS
     export WEBROOT=http://nfssv.rhts.fuchu/export/data/user/n-horiguchi/mmtests-mirror
-else
-    # 192.168.0.127
-    # Local devel environment
+elif ip addr | grep 192\.168\.122 > /dev/null ; then
     export WEBROOT=http://192.168.122.1/mmtests-mirror
+elif ip addr | grep 192\.168\.124 > /dev/null ; then
+    export WEBROOT=http://192.168.124.1/mmtests-mirror
+else
+    echo "No valid network, getting TPs from WEBROOT might fail" >&2
 fi
 
 export RUN_WARMUP=

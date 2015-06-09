@@ -1,0 +1,3 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
+export MMTESTS="$MMTESTS sharepagetest"
+export SHAREPAGETEST_ITERATIONS=1

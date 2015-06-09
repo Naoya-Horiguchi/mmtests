@@ -1,0 +1,4 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
+export MMTESTS="$MMTESTS unixbench-fstime"
+export UNIXBENCH_MIN_THREADS=2
+export UNIXBENCH_MAX_THREADS=$[NUMCPUS*16]

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+P=transhuge-stress
+. $SHELLPACK_INCLUDE/common.sh
+TIME_CMD=`which time`
+if [ "$TIME_CMD" = "" ]; then
+        TIMEFORMAT="%2Uuser %2Ssystem %Relapsed %P%%CPU"
+        TIME_CMD="time"
+fi
+TESTTIME=15
+
+WEB_LOCATION=http://mirrors.neusoft.edu.cn/rpi-kernel/tools/testing/selftests/vm/transhuge-stress.c
+MIRROR_LOCATION="$WEBROOT/transhuge-stress.c"
+
+mkdir -p $SHELLPACK_SOURCES/transhuge-stress
+sources_fetch $WEB_LOCATION $MIRROR_LOCATION $SHELLPACK_SOURCES/transhuge-stress/transhuge-stress.c
+if [ ! -e $SHELLPACK_SOURCES/transhuge-stress/transhuge-stress.c ] ; then
+   echo failed to wget transhuge-stress.c
+   exit $SHELLPACK_ERROR
+fi
+
+make -C $SHELLPACK_SOURCES/transhuge-stress/ transhuge-stress
+
+# Include monitor hooks
+. $SHELLPACK_INCLUDE/include-monitor.sh
+
+mmtests_activity test start
+$SHELLPACK_SOURCES/transhuge-stress/transhuge-stress &
+TRANSHUGE_STRESS_PID=$!
+sleep $TESTTIME
+kill -9 $TRANSHUGE_STRESS_PID
+mmtests_activity test end
+
+echo "$UNIXBENCH_WORKLOADS > $LOGDIR_RESULTS/workloads"
+echo $UNIXBENCH_WORKLOADS > $LOGDIR_RESULTS/workloads
+exit $SHELLPACK_SUCCESS

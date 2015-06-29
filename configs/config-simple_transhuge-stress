@@ -1,2 +1,3 @@
 source $(dirname $BASH_SOURCE)/config-simple_common
 export MMTESTS="$MMTESTS transhuge-stress"
+export TRANSHUGE_STRESS_TESTTIME=60

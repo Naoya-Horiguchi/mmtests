@@ -1,0 +1,20 @@
+#!/bin/bash
+
+P='compact-test'
+. $SHELLPACK_INCLUDE/common.sh
+
+WEB_LOCATION=NOT_AVAILABLE
+MIRROR_LOCATION=$WEBROOT/compaction_test.c
+
+sources_fetch $WEB_LOCATION $MIRROR_LOCATION $SHELLPACK_TEMP/compaction_test.c
+
+echo "compile compaction_test"
+gcc -o ./compaction_test $SHELLPACK_TEMP/compaction_test.c
+if [ $? -ne 0 ] ; then
+   echo compile failed
+   exit -1
+fi
+$SHELLPACK_TEMP/compaction_test | tee -a $LOGDIR_RESULTS/compaction_test.log
+
+rm -rf $SHELLPACK_TEMP
+exit $SHELLPACK_SUCCESS

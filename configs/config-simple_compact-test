@@ -1,0 +1,2 @@
+source $(dirname $BASH_SOURCE)/config-simple_common
+export MMTESTS="$MMTESTS compact-test"
